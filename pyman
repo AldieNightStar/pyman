@@ -6,7 +6,7 @@ import venv
 import json
 
 # File Name Settings
-FILE_NAME_REQ = "requirements.txt"
+FILE_PYPROJECT = "pyproject.toml"
 FILE_NAME_VENV = "venv"
 FILE_NAME_ENV = ".env"
 
@@ -29,18 +29,12 @@ def load_env(project_root):
                 os.environ[key.strip()] = value.strip().strip("'").strip('"')
 
 def install_requirements(project_root):
-    requirements_file = os.path.join(project_root, FILE_NAME_REQ)
     venv_dir = os.path.join(project_root, FILE_NAME_VENV)
-
-    if not os.path.exists(requirements_file):
-        print(f"--- Please make sure {FILE_NAME_REQ} file is present")
-        return
-
     if os.name == "nt":
         pip_exe = os.path.join(venv_dir, "Scripts", "pip.exe")
     else:
         pip_exe = os.path.join(venv_dir, "bin", "pip")
-    subprocess.check_call([pip_exe, "install", "-r", requirements_file])
+    subprocess.check_call([pip_exe, "install", "-e", '.'])
 
 def run_python(project_root, app_name, args):
     venv_dir = os.path.join(project_root, FILE_NAME_VENV)
@@ -56,7 +50,7 @@ def main():
     # Setup paths
     project_root = os.path.abspath(os.path.dirname(__file__))
     venv_dir = os.path.join(project_root, FILE_NAME_VENV)
-    requirements_file = os.path.join(project_root, FILE_NAME_REQ)
+    pyproject_file = os.path.join(project_root, FILE_PYPROJECT)
 
     # Set PYTHONPATH to the project root
     python_path = get_python_path(project_root)
@@ -69,8 +63,8 @@ def main():
         venv.create(venv_dir, with_pip=True)
         
         # Install requirements if they exist
-        if os.path.exists(requirements_file):
-            print("--- Installing requirements.txt ...")
+        if os.path.exists(pyproject_file):
+            print("--- Installing dependencies ...")
             install_requirements(project_root)
 
     # Run python
