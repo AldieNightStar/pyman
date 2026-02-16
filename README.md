@@ -13,8 +13,8 @@
 USAGE:
   pyman new name  - Create new project
 
-  pyman install   - Install from requirements.txt
-  pyman reinstall - Deletes venv and reinstalls requirements.txt
+  pyman install   - Install dependencies
+  pyman reinstall - Deletes venv and reinstalls dependencies
 
   pyman vscode    - (Re)Setup for vscode
   pyman pytest    - (Re)Setup pytest
