@@ -13,7 +13,6 @@ FILE_NAME_ENV = ".env"
 # App settings
 APP_SOURCES_NAME = "src"
 APP_MAIN_NAME = "app"
-APP_PATHS = ["src", "test"]
 
 def load_env(project_root):
     env_path = os.path.join(project_root, FILE_NAME_ENV)
