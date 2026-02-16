@@ -15,6 +15,7 @@ USAGE:
 
   pyman install   - Install dependencies
   pyman reinstall - Deletes venv and reinstalls dependencies
+  pyman pack      - Creates wheel build package from project
 
   pyman vscode    - (Re)Setup for vscode
   pyman pytest    - (Re)Setup pytest
