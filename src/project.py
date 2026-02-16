@@ -1,4 +1,5 @@
 from multiprocessing.util import is_exiting
+from typing import cast
 import subprocess
 import os.path
 import shutil
@@ -7,7 +8,6 @@ import venv
 import os
 
 __APP_PATHS = ["src", "test"]
-__FILE_NAME_REQ = "requirements.txt"
 
 def is_in_project(root):
     src_dir = os.path.join(root, "src")
@@ -22,8 +22,6 @@ def create_project(root, project_name):
 
     src_dir = os.path.join(root, "src")
     test_dir = os.path.join(root, "test")
-    gitignore_file = os.path.join(root, ".gitignore")
-    requirements_file = os.path.join(root, __FILE_NAME_REQ)
     
     # Make dirs
     files.makedir(src_dir)
@@ -45,7 +43,7 @@ def create_project(root, project_name):
     # Create basic app file
     files.write_file(os.path.join(src_dir, "app.py"), [
         "def main(args):",
-        "    pass",
+        "    print(\"Works!\")",
         "",
         "if __name__ == \"__main__\":",
         "    import sys",
@@ -65,8 +63,8 @@ def create_project(root, project_name):
         os.path.join(root, project_name),
     )
 
-    # Write requirements file
-    files.write_file(requirements_file, "pytest")
+    # Create pyproject.toml
+    create_pyproject(root, project_name)
 
     # Create venv
     create_venv(root)
@@ -127,14 +125,9 @@ def create_venv(root):
     install_requirements(root)
 
 def install_requirements(root):
-    requirements_file = os.path.join(root, __FILE_NAME_REQ)
     venv_dir = os.path.join(root, "venv")
-
-    if not os.path.exists(requirements_file):
-        files.write_file(requirements_file, "")
-    
     pip_exe = _venv_get_pip(venv_dir)
-    subprocess.check_call([pip_exe, "install", "-r", requirements_file])
+    subprocess.check_call([pip_exe, "install", "."], cwd=root)
 
 def remove_venv(root):
     venv_dir = os.path.join(root, "venv")
@@ -146,6 +139,17 @@ def _venv_get_pip(venv_dir):
         return os.path.join(venv_dir, "Scripts", "pip.exe")
     else:
         return os.path.join(venv_dir, "bin", "pip")
+
+def create_pyproject(root, name):
+    pyproject_file = os.path.join(root, "pyproject.toml")
+    pyproject_template = files.read_res("pyproject.toml")
+
+    if pyproject_file is None:
+        return
+
+    files.write_file(pyproject_file, cast(str, pyproject_template)\
+        .replace("%NAME%", name)
+    )
 
 def setup_scripts(root):
     scripts_dir = os.path.join(root, "scripts")

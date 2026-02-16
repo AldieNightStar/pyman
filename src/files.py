@@ -47,3 +47,9 @@ def run_python(root, module, args=[], cwd="."):
     venv_dir = os.path.join(root, "venv")
     python_exe = os.path.join(venv_dir, "bin", "python") if os.name != "nt" else os.path.join(venv_dir, "Scripts", "python.exe")
     subprocess.run([python_exe, '-m', module] + args, cwd=cwd)
+
+def read_res(name):
+    file = os.path.join(ROOT_DIR, "res", name)
+    if not os.path.exists(file): return None
+    with open(file, 'r') as f:
+        return f.read()
