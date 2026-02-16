@@ -9,6 +9,7 @@ def main(args):
         print("")
         print("  pyman install   - Install dependencies")
         print("  pyman reinstall - Deletes venv and reinstalls dependencies")
+        print("  pyman pack      - Creates wheel build package from project")
         print("")
         print("  pyman vscode    - (Re)Setup for vscode")
         print("  pyman pytest    - (Re)Setup pytest")
@@ -55,6 +56,8 @@ def execute(cmd, args):
             print("Enter name of the script and args for that script")
             return
         project.run_script(root, args[0], args[1:])
+    elif cmd == "pack":
+        project.pack(root)
 
 if __name__ == "__main__":
     main(sys.argv[1:])

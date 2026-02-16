@@ -12,7 +12,8 @@ description = "The %NAME% project package"
 readme = "README.md"
 requires-python = ">=3.7"
 dependencies = [
-    "pytest"
+    "pytest",
+    "build"
 ]
 
 [tool.setuptools.packages.find]

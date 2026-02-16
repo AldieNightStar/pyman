@@ -22,10 +22,11 @@ def create_project(root, project_name):
 
     src_dir = os.path.join(root, "src")
     test_dir = os.path.join(root, "test")
+    src_package_dir = os.path.join(src_dir, project_name)
     
     # Make dirs
-    files.makedir(src_dir)
     files.makedir(test_dir)
+    files.makedir(src_package_dir)
 
     # Copy .gitignore
     shutil.copy(
@@ -41,7 +42,7 @@ def create_project(root, project_name):
     ])
 
     # Create basic app file
-    files.write_file(os.path.join(src_dir, "app.py"), [
+    files.write_file(os.path.join(src_package_dir, "app.py"), [
         "def main(args):",
         "    print(\"Works!\")",
         "",
@@ -167,3 +168,6 @@ def get_pythonpath(root):
     for path in __APP_PATHS:
         paths.append(os.path.join(root, path))
     return os.pathsep.join(paths)
+
+def pack(root):
+    files.run_python(root, "build", cwd=root)
