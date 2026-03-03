@@ -23,6 +23,7 @@ def create_project(root, project_name):
     src_dir = os.path.join(root, "src")
     test_dir = os.path.join(root, "test")
     src_package_dir = os.path.join(src_dir, project_name)
+    launcher_file = os.path.join(project_name, project_name)
     
     # Make dirs
     files.makedir(test_dir)
@@ -61,7 +62,7 @@ def create_project(root, project_name):
     # Copy launcher
     shutil.copy(
         os.path.join(files.ROOT_DIR, "pyman"),
-        os.path.join(root, project_name),
+        launcher_file,
     )
 
     # Create pyproject.toml
@@ -72,6 +73,9 @@ def create_project(root, project_name):
 
     # Setup scripts
     setup_scripts(root)
+
+    # Update runner main constant
+    files.replace_line(launcher_file, "APP_MAIN_NAME", f"APP_MAIN_NAME = \"{project_name}.app\"")
 
     # Create git
     files.init_git_repo(root)

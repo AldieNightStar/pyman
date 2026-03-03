@@ -53,3 +53,15 @@ def read_res(name):
     if not os.path.exists(file): return None
     with open(file, 'r') as f:
         return f.read()
+
+def replace_line(name, line_begins, new_line_content):
+    with open(name, 'r') as f:
+        new_lines = []
+        for line in f.readlines():
+            if line.strip().startswith(line_begins):
+                new_lines.append(new_line_content + "\n")
+            else:
+                new_lines.append(line)
+        str_content = "".join(new_lines)
+    with open(name, 'w') as f:
+        f.write(str_content)
