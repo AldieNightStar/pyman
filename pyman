@@ -33,7 +33,7 @@ def install_requirements(project_root):
         pip_exe = os.path.join(venv_dir, "Scripts", "pip.exe")
     else:
         pip_exe = os.path.join(venv_dir, "bin", "pip")
-    subprocess.check_call([pip_exe, "install", "-e", '.'])
+    subprocess.check_call([pip_exe, "install", "-e", '.'], cwd=project_root)
 
 def run_python(project_root, app_name, args):
     venv_dir = os.path.join(project_root, FILE_NAME_VENV)

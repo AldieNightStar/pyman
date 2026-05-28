@@ -25,7 +25,7 @@ def execute(cmd, args):
             print("--- Enter name of the project")
             return
         name = args[0]
-        if name in ("src", "test", "tests", "new", "scripts") or len(name) < 3:
+        if name in ("src", "test", "tests", "new", "scripts", "script", "sys", "os") or len(name) < 3:
             print("--- Incorrect name for the project")
             return
         project.create_project("./" + name, name)
