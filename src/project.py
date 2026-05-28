@@ -38,7 +38,7 @@ def create_project(root, project_name):
     # Create basic test
     files.write_file(os.path.join(test_dir, "test_basic.py"), [
         "def test_app_has_main():",
-        "    from app import main",
+        f"    from {project_name}.app import main",
         "    assert main is not None"
     ])
 
