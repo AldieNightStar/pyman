@@ -23,11 +23,13 @@ def create_project(root, project_name):
     src_dir = os.path.join(root, "src")
     test_dir = os.path.join(root, "test")
     src_package_dir = os.path.join(src_dir, project_name)
-    launcher_file = os.path.join(project_name, project_name)
+    launcher_file = os.path.join(root, project_name)
+    bin_dir = os.path.join(src_package_dir, "binaries")
     
     # Make dirs
     files.makedir(test_dir)
     files.makedir(src_package_dir)
+    files.makedir(bin_dir)
 
     # Copy .gitignore
     shutil.copy(
@@ -52,6 +54,9 @@ def create_project(root, project_name):
         "    main(sys.argv[1:])",
         ""
     ])
+
+    # Make sure git will not remove binaries directory
+    files.write_file(os.path.join(bin_dir, ".gitignore"), ["<3"])
 
     # Create pytest config
     setup_pytest(root)
